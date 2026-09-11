@@ -1,0 +1,218 @@
+/* ── CSS Variables per season ─────────────────────────────────── */
+
+:root {
+  --ease: cubic-bezier(.25,.8,.25,1);
+}
+
+body.winter {
+  --bg:          #f0f4f8;
+  --bg2:         #e4ecf4;
+  --accent:      #8aaac8;
+  --accent-soft: #c8d8e8;
+  --text:        #2c3a4a;
+  --text-muted:  #7a90a4;
+  --dot:         #b8ccd8;
+  --grain-opacity: 0.03;
+}
+
+body.spring {
+  --bg:          #f5f7f0;
+  --bg2:         #eaefe0;
+  --accent:      #7a9e6e;
+  --accent-soft: #c8ddb8;
+  --text:        #2d3828;
+  --text-muted:  #7a906e;
+  --dot:         #b8d4a8;
+  --grain-opacity: 0.025;
+}
+
+body.summer {
+  --bg:          #fdf8ee;
+  --bg2:         #f7efda;
+  --accent:      #c8943a;
+  --accent-soft: #e8d4a8;
+  --text:        #3a2e18;
+  --text-muted:  #9a8060;
+  --dot:         #d8c090;
+  --grain-opacity: 0.02;
+}
+
+body.autumn {
+  --bg:          #f7f2ec;
+  --bg2:         #ede4d8;
+  --accent:      #b06030;
+  --accent-soft: #ddb898;
+  --text:        #2c1e14;
+  --text-muted:  #8a6a50;
+  --dot:         #c89878;
+  --grain-opacity: 0.025;
+}
+
+/* ── Reset & base ─────────────────────────────────────────────── */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; }
+
+body {
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ── Grain texture overlay ────────────────────────────────────── */
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: var(--grain-opacity);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Soft circle bg ───────────────────────────────────────────── */
+
+body::after {
+  content: '';
+  position: fixed;
+  width: min(600px, 90vw);
+  height: min(600px, 90vw);
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+  opacity: 0.35;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Layout ───────────────────────────────────────────────────── */
+
+.wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: fadeUp .9s var(--ease) both;
+}
+
+/* ── Season badge ─────────────────────────────────────────────── */
+
+.season {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp .7s .15s var(--ease) forwards;
+}
+
+/* ── Divider dot row ──────────────────────────────────────────── */
+
+.dots {
+  display: flex;
+  gap: .45rem;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  opacity: 0;
+  animation: fadeUp .7s .25s var(--ease) forwards;
+}
+
+.dots span {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.dots span:nth-child(2) { width: 6px; height: 6px; background: var(--accent); }
+
+/* ── Date ─────────────────────────────────────────────────────── */
+
+.date {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+    font-size: clamp(1.55rem, 5.5vw, 2.4rem);
+  color: var(--text-muted);
+  letter-spacing: .04em;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: fadeUp .7s .35s var(--ease) forwards;
+}
+
+/* ── Affirmation ──────────────────────────────────────────────── */
+
+.affirmation {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(1.55rem, 5.5vw, 2.4rem);
+  line-height: 1.55;
+  text-align: center;
+  color: var(--text);
+  max-width: 560px;
+  opacity: 0;
+  animation: fadeUp .9s .5s var(--ease) forwards;
+}
+
+/* ── Bottom line ──────────────────────────────────────────────── */
+
+.line {
+  width: 40px;
+  height: 1px;
+  background: var(--accent-soft);
+  margin-top: 2.8rem;
+  opacity: 0;
+  animation: fadeUp .7s .75s var(--ease) forwards;
+}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+
+.footer {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  letter-spacing: .12em;
+  color: var(--text-muted);
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp .7s .85s var(--ease) forwards;
+}
+
+/* ── Animations ───────────────────────────────────────────────── */
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive tweaks ────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  body { padding: 1.5rem 1.25rem; }
+  .affirmation { font-size: clamp(1.35rem, 6vw, 1.8rem); }
+}
+
+@media (min-width: 900px) {
+  .affirmation { font-size: 2.5rem; }
+}
+
+
